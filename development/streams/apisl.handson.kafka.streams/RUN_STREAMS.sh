@@ -9,7 +9,20 @@ own_dir()
 OWN_DIR=$(own_dir)
 echo "###[$OWN_DIR]###"
 
-#	echo "\n146.75.112.215	repo.maven.apache.org" >> /etc/hosts
+HOSTS="/etc/hosts"
+REPO_DOMAIN="repo.maven.apache.org"
+
+echo "### START: add repo domain to hosts ##########"
+
+grep $REPO_DOMAIN $HOSTS
+if [ $? -ne 0 ]; then
+	echo "\n146.75.112.215	$REPO_DOMAIN" >> $HOSTS
+	echo "completed to add the repo domain to hosts"
+else
+	echo "already added the repo domain"
+fi
+
+echo "### START: build and execute a stream application by maven ##########"
 
 mvn clean -f $OWN_DIR/pom.xml
 mvn package -f $OWN_DIR/pom.xml

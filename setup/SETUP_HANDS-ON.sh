@@ -43,27 +43,27 @@ $WRK_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create -
 echo "### START: Register KSQL streams ##########"
 
 curl -v -X "POST" \
+     "http://localhost:8088/ksql" \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-     -d @$WRK_DIR/ksql-create-stream-input.json \
-     "http://localhost:8088/ksql"
+     -d @$WRK_DIR/ksql-create-stream-input.json
 
 curl -v -X "POST" \
+     "http://localhost:8088/ksql" \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-     -d @$WRK_DIR/ksql-create-stream-output.json \
-     "http://localhost:8088/ksql"
+     -d @$WRK_DIR/ksql-create-stream-output.json
 
-curl -v -X "POST" "http://localhost:8088/ksql" \
+curl -v -X "POST" \
+     "http://localhost:8088/ksql" \
      -H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-     -d '{"ksql": "SHOW STREAMS;", "streamsProperties": {}}' \
-     "http://localhost:8088/ksql" | \
+     -d '{"ksql": "SHOW STREAMS;", "streamsProperties": {}}' | \
      jq
 
 echo "### START: Register Connectors ##########"
 
 curl -v -X POST \
+     "http://$BOOTSTRAP:8083/connectors" \
      -H "Content-Type: application/json" \
-     -d @$WRK_DIR/debezium.json \
-     "http://$BOOTSTRAP:8083/connectors"
+     -d @$WRK_DIR/debezium.json
 
 echo "\n### START: Show the list of topiscs ##########"
 
