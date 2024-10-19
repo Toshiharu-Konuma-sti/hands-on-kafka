@@ -24,9 +24,9 @@ fi
 
 echo "### START: build and execute a stream application by maven ##########"
 
-mvn clean -f $OWN_DIR/pom.xml
-mvn package -f $OWN_DIR/pom.xml
-mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.Pipe -f $OWN_DIR/pom.xml
+mvn clean package -f $OWN_DIR/pom.xml
+# mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.Pipe -f $OWN_DIR/pom.xml &
 # mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.LineSplit -f $OWN_DIR/pom.xml &
 # mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.WordCount -f $OWN_DIR/pom.xml &
+mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.MyApp -f $OWN_DIR/pom.xml
 

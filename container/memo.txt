@@ -9,20 +9,20 @@
 
 - commands for docker
   - Login to the ksql-cli container
-    - $ sudo docker exec -it ksql-cli /bin/bash
-    - $ sudo docker exec -it streams /bin/bash
+    - $ docker exec -it ksql-cli /bin/bash
+    - $ docker exec -it streams /bin/bash
   - delete all images
-    - $ sudo docker rmi $(sudo docker images -q)
+    - $ docker rmi $(docker images -q)
   - build images which created by docker-compose.yml
-    - $ sudo docker-compose build
-    - $ sudo docker-compose up -d
+    - $ docker-compose build
+    - $ docker-compose up -d
   - show a log in each container
-    - $ sudo docker-compose logs streams
+    - $ docker-compose logs streams
 
 - cdc
 ./kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
-sudo docker exec mysql mysql -u root -ppassword -D mytest -e "INSERT INTO user(name) VALUES ('SampleName1');"
-sudo docker exec mysql mysql -u root -ppassword -D mytest -e "INSERT INTO user(name) VALUES ('SampleName2');"
+docker exec mysql mysql -u root -ppassword -D mytest -e "INSERT INTO user(name) VALUES ('SampleName1');"
+docker exec mysql mysql -u root -ppassword -D mytest -e "INSERT INTO user(name) VALUES ('SampleName2');"
 
 - consumer
 ./kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-cdc-mysql.mytest.user

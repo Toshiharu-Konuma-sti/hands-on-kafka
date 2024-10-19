@@ -24,7 +24,7 @@ hs_err_pid*
 replay_pid*
 
 # for Kafka container environment
-setup/kafka_*-*.tgz
-setup/kafka/
 development/streams/apisl.handson.kafka.streams/target/
+try-my-hand/kafka_*-*.tgz
+try-my-hand/kafka/
 
