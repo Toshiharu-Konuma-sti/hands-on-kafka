@@ -14,7 +14,7 @@ ARCHIVE=kafka_2.13-3.8.0.tgz
 BINARY_URL=https://downloads.apache.org/kafka/3.8.0/$ARCHIVE
 BINARY_URL=https://ftp.riken.jp/net/apache/kafka/3.8.0/$ARCHIVE
 DOWNLOADED=$EXP_DIR/$ARCHIVE
-APPTOP_DIR=$EXP_DIR/kafka
+CLITOP_DIR=$EXP_DIR/kafka
 BOOTSTRAP=localhost
 
 echo "### the dir for container   = [$DOK_DIR] ##########"
@@ -35,10 +35,10 @@ echo "### START: Get CLI tool for Kafka ##########"
 if [ ! -e $DOWNLOADED ]; then
 	wget -P $EXP_DIR $BINARY_URL
 fi
-if [ ! -d $APPTOP_DIR ]; then
-	mkdir $APPTOP_DIR
+if [ ! -d $CLITOP_DIR ]; then
+	mkdir $CLITOP_DIR
 fi
-tar -zxvf $DOWNLOADED -C $APPTOP_DIR --strip-components 1
+tar -zxvf $DOWNLOADED -C $CLITOP_DIR --strip-components 1
 
 echo "### START: Create topics ##########"
 
