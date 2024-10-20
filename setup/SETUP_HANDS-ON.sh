@@ -7,14 +7,14 @@ own_dir()
 }
 
 SET_DIR=$(own_dir)
-EXP_DIR=$(realpath $SET_DIR/../try-my-hand)
 DOK_DIR=$(realpath $SET_DIR/../container)
+EXP_DIR=$(realpath $SET_DIR/../try-my-hand)
 
-KAFKA_TGZ=kafka_2.13-3.8.0.tgz
-KAFKA_BIN=https://downloads.apache.org/kafka/3.8.0/$KAFKA_TGZ
-KAFKA_BIN=https://ftp.riken.jp/net/apache/kafka/3.8.0/$KAFKA_TGZ
-KAFKA_PKG=$EXP_DIR/$KAFKA_TGZ
-KAFKA_DIR=$EXP_DIR/kafka
+ARCHIVE=kafka_2.13-3.8.0.tgz
+BINARY_URL=https://downloads.apache.org/kafka/3.8.0/$ARCHIVE
+BINARY_URL=https://ftp.riken.jp/net/apache/kafka/3.8.0/$ARCHIVE
+DOWNLOADED=$EXP_DIR/$ARCHIVE
+APPTOP_DIR=$EXP_DIR/kafka
 BOOTSTRAP=localhost
 
 echo "### the dir for container   = [$DOK_DIR] ##########"
@@ -32,13 +32,13 @@ fi
 
 echo "### START: Get CLI tool for Kafka ##########"
 
-if [ ! -e $KAFKA_PKG ]; then
-	wget -P $EXP_DIR $KAFKA_BIN
+if [ ! -e $DOWNLOADED ]; then
+	wget -P $EXP_DIR $BINARY_URL
 fi
-if [ ! -d $KAFKA_DIR ]; then
-	mkdir $KAFKA_DIR
+if [ ! -d $APPTOP_DIR ]; then
+	mkdir $APPTOP_DIR
 fi
-tar -zxvf $KAFKA_PKG -C $KAFKA_DIR --strip-components 1
+tar -zxvf $DOWNLOADED -C $APPTOP_DIR --strip-components 1
 
 echo "### START: Create topics ##########"
 
