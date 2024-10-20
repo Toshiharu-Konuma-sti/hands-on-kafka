@@ -28,5 +28,5 @@ mvn clean package -f $OWN_DIR/pom.xml
 # mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.Pipe -f $OWN_DIR/pom.xml &
 # mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.LineSplit -f $OWN_DIR/pom.xml &
 # mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.WordCount -f $OWN_DIR/pom.xml &
-mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.MyApp -f $OWN_DIR/pom.xml
+mvn exec:java -Dexec.mainClass=jp.sios.apisl.handson.kafka.streams.MyHandsOn -f $OWN_DIR/pom.xml
 

@@ -34,7 +34,7 @@ import java.util.concurrent.CountDownLatch;
  * the code split each text line in string into words and then write back into a sink topic "my-streams-linesplit-output" where
  * each record represents a single word.
  */
-public class MyApp {
+public class MyHandsOn {
 
 	public static void main(String[] args) throws Exception {
 
@@ -68,7 +68,7 @@ public class MyApp {
 					return new String(chars);
 				}
 			})
-			.to("my-streams-myapp-output");
+			.to("my-streams-myhandson-output");
 
 		final Topology topology = builder.build();
 		final KafkaStreams streams = new KafkaStreams(topology, props);

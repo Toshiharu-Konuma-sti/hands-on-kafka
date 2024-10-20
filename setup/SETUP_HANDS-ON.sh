@@ -48,7 +48,7 @@ $EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create -
 $EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create --topic my-streams-linesplit-output
 $EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create --topic my-streams-pipe-output
 $EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create --topic my-streams-wordcount-output
-$EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create --topic my-streams-myapp-output
+$EXP_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $BOOTSTRAP:9092 --create --topic my-streams-myhandson-output
 
 echo "### START: Register KSQL streams ##########"
 
