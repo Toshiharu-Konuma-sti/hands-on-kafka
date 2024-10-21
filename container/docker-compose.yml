@@ -8,9 +8,6 @@ services:
     container_name: zookeeper
     networks:
       - internal
-      - external
-    ports:
-      - 2181:2181
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 #      ZOOKEEPER_TICK_TIME: 2000
@@ -69,7 +66,6 @@ services:
     container_name: ksql-cli
     networks:
       - internal
-      - external
     depends_on:
       - ksql-server
     entrypoint: /bin/sh
@@ -100,9 +96,6 @@ services:
     container_name: mysql
     networks:
       - internal
-      - external
-    ports:
-      - 3306:3306
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/init:/docker-entrypoint-initdb.d
