@@ -7,6 +7,7 @@ services:
     hostname: zookeeper
     container_name: zookeeper
     networks:
+      - internal
       - external
     ports:
       - 2181:2181
@@ -19,6 +20,7 @@ services:
     hostname: broker
     container_name: broker
     networks:
+      - internal
       - external
     ports:
       - 9092:9092
@@ -41,6 +43,7 @@ services:
     hostname: ksql-server
     container_name: ksql-server
     networks:
+      - internal
       - external
     ports:
       - 8088:8088
@@ -65,6 +68,7 @@ services:
     hostname: ksql-cli
     container_name: ksql-cli
     networks:
+      - internal
       - external
     depends_on:
       - ksql-server
@@ -76,6 +80,7 @@ services:
     hostname: debezium
     container_name: debezium
     networks:
+      - internal
       - external
     ports:
       - 8083:8083
@@ -94,6 +99,7 @@ services:
     hostname: mysql
     container_name: mysql
     networks:
+      - internal
       - external
     ports:
       - 3306:3306
@@ -112,6 +118,7 @@ services:
       context: ./streams
       dockerfile: Dockerfile
     networks:
+      - internal
       - external
     depends_on:
       - broker
@@ -126,6 +133,7 @@ services:
     hostname: control-center
     container_name: control-center
     networks:
+      - internal
       - external
     ports:
       - 9021:9021
@@ -146,6 +154,10 @@ services:
       PORT: 9021
 
 networks:
+  internal:
+    name: intra-net
+    driver: bridge
+    internal: true
   external:
     name: hands-net
     driver: bridge
