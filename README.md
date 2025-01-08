@@ -1,1 +1,1 @@
-# hands-on-kafka
+# Hands-on Training for Apache Kafka
