@@ -35,6 +35,7 @@ services:
 #      KAFKA_JMX_PORT: 9101
 #      KAFKA_JMX_HOSTNAME: localhost
 
+  # --- ksql Ecosystem ---
   ksql-server:
     image: confluentinc/cp-ksqldb-server:7.7.1
     hostname: ksql-server
@@ -71,6 +72,64 @@ services:
     entrypoint: /bin/sh
     tty: true
 
+  # --- Flink Ecosystem ---
+  jobmanager:
+    hostname: jobmanager
+    container_name: jobmanager
+    build:
+      context: ./flink
+      dockerfile: Dockerfile
+    networks:
+      - internal
+      - external
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081" # Flink Web UI
+    volumes:
+      - ./flink/opt/flink/process_kafka.py:/opt/flink/process_kafka.py
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+
+  taskmanager:
+    hostname: taskmanager
+    container_name: taskmanager
+    build:
+      context: ./flink
+      dockerfile: Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+
+  # --- streams application Ecosystem ---
+  streams:
+    hostname: streams
+    container_name: streams
+    build:
+      context: ./streams
+      dockerfile: Dockerfile
+    networks:
+      - internal
+      - external
+    depends_on:
+      - broker
+    volumes:
+      - ../development/streams:/streams
+    working_dir: /streams
+    entrypoint: ./apisl.handson.kafka.streams/RUN_STREAMS.sh
+    tty: true
+
+  # --- cdc Ecosystem ---
   debezium:
     image: debezium/connect:3.0.0.Final
     hostname: debezium
@@ -107,23 +166,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASS}
       TZ: "Asia/Tokyo"
 
-  streams:
-    hostname: streams
-    container_name: streams
-    build:
-      context: ./streams
-      dockerfile: Dockerfile
-    networks:
-      - internal
-      - external
-    depends_on:
-      - broker
-    volumes:
-      - ../development/streams:/streams
-    working_dir: /streams
-    entrypoint: ./apisl.handson.kafka.streams/RUN_STREAMS.sh
-    tty: true
-
+  # --- web ui Ecosystem ---
   control-center:
     image: confluentinc/cp-enterprise-control-center:7.7.1
     hostname: control-center

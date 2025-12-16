@@ -21,8 +21,9 @@ cat << EOS
 
 /************************************************************
  * Information:
- * - Access to Control Center for Confluent with the URL below. (It will take some time for booting it.)
- *   - http://localhost:9021/
+ * - Navigate to Web ui tools with the URL below.
+ *   - Control Center:  http://localhost:9021
+ *   - Flink dashboard: http://localhost:8081
  ***********************************************************/
 
 EOS
