@@ -1,0 +1,18 @@
+
+h1. Flink
+
+# preparing
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
+
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --replication-factor 1 --partitions 1 --topic input-topic
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --replication-factor 1 --partitions 1 --topic output-topic
+docker exec -it jobmanager ./bin/flink run --python /opt/flink/process_kafka.py
+
+# for consumer
+docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic output-topic
+
+# producer
+docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --topic input-topic
+> tanaka,hello pyflink
+> sato,kafka is fun
+
