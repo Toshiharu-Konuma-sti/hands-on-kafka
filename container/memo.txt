@@ -16,3 +16,29 @@ docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --
 > tanaka,hello pyflink
 > sato,kafka is fun
 
+////////////////////////////
+
+h1. Schema Registory（今一つ違う気がする。web uiの管理面でトピック見てもスキーマが登録されていない...）
+
+# 準備
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --replication-factor 1 --partitions 1 --topic users-avro
+
+# コンシューマー
+docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic users-avro
+
+# プロデューサー（コンテナに入り込む）
+docker-compose exec schema-registry bash
+
+kafka-avro-console-producer \
+  --bootstrap-server broker:29092 \
+  --topic users-avro \
+  --property schema.registry.url=http://localhost:8081 \
+  --property value.schema='{"type":"record","name":"User","fields":[{"name":"name","type":"string"},{"name":"age","type":"int"}]}'
+
+入力待ちになったらデータを打ち込む
+・成功データ
+{"name": "Alice", "age": 30}
+
+・エラーデータ
+{"name": "Bob", "age": "invalid"}
