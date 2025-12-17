@@ -85,7 +85,7 @@ services:
     depends_on:
       - broker
     ports:
-      - "8081:8081" # Flink Web UI
+      - "8181:8081" # Flink Web UI
     volumes:
       - ./flink/opt/flink/process_kafka.py:/opt/flink/process_kafka.py
     command: jobmanager
@@ -110,6 +110,23 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
+
+  # --- schema-registry Ecosystem ---
+  schema-registry:
+    hostname: schema-registry
+    container_name: schema-registry
+    image: confluentinc/cp-schema-registry:7.9.5
+    container_name: schema-registry
+    networks:
+      - internal
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   # --- streams application Ecosystem ---
   streams:

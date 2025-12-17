@@ -23,7 +23,7 @@ cat << EOS
  * Information:
  * - Navigate to Web ui tools with the URL below.
  *   - Control Center:  http://localhost:9021
- *   - Flink dashboard: http://localhost:8081
+ *   - Flink dashboard: http://localhost:8181
  ***********************************************************/
 
 EOS
