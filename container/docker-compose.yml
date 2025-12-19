@@ -142,7 +142,10 @@ services:
     depends_on:
       - broker
     volumes:
-      - ../development/streams:/streams
+      - ../development/streams/apisl.handson.kafka.streams/RUN_STREAMS.sh:/streams/apisl.handson.kafka.streams/RUN_STREAMS.sh
+      - ../development/streams/apisl.handson.kafka.streams/pom.xml:/streams/apisl.handson.kafka.streams/pom.xml
+      - ../development/streams/apisl.handson.kafka.streams/src:/streams/apisl.handson.kafka.streams/src
+
     working_dir: /streams
     entrypoint: ./apisl.handson.kafka.streams/RUN_STREAMS.sh
     tty: true
