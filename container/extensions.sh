@@ -42,6 +42,26 @@ show_url()
  *   - Control Center:  http://localhost:9021
  *   - Flink dashboard: http://localhost:8181
  ***********************************************************/
+
+EOS
+}
+# }}}
+
+# {{{ show_usage()
+show_usage()
+{
+	cat << EOS
+Usage: $(basename $0) [options]
+
+Start the containers needed for the hands-on. If there are any containers
+already running, stop them and remove resources beforehand.
+
+Options:
+  up                    Start the containers.
+  down                  Stop the containers and remove resources.
+  list                  Show the list of containers.
+  info                  Show the information such as URLs.
+
 EOS
 }
 # }}}
