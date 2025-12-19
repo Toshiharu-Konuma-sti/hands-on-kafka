@@ -1,36 +1,41 @@
 #!/bin/sh
 
-clear
 S_TIME=$(date +%s)
 CUR_DIR=$(cd $(dirname $0); pwd)
+. $CUR_DIR/functions.sh
+. $CUR_DIR/extensions.sh
 
-echo "############################################################"
-echo "# START SCRIPT"
-echo "############################################################"
+case "$1" in
+	"up")
+		clear
+		start_banner
+		finish_banner $S_TIME
+		;;
+	"down")
+		clear
+		start_banner
+		destory_container $CUR_DIR
+		show_list_container
+		finish_banner $S_TIME
+		;;
+	"list")
+		clear
+		show_list_container
+		;;
+	"")
+		clear
+		start_banner
+		destory_container $CUR_DIR
+		create_container $CUR_DIR
 
-echo "\n### START: Destory existing containers ##########"
-docker-compose down
+		show_list_container
+		show_url
+		finish_banner $S_TIME
+		;;
+	*)
+		show_usage
+		exit 1
+		;;
 
-echo "\n### START: Create new containers ##########"
-docker-compose up -d
+esac
 
-echo "\n### START: Show a list of container ##########"
-docker ps -a
-
-cat << EOS
-
-/************************************************************
- * Information:
- * - Navigate to Web ui tools with the URL below.
- *   - Control Center:  http://localhost:9021
- *   - Flink dashboard: http://localhost:8181
- ***********************************************************/
-
-EOS
-
-E_TIME=$(date +%s)
-DURATION=$((E_TIME - S_TIME))
-
-echo "############################################################"
-echo "# FINISH SCRIPT ($DURATION seconds)"
-echo "############################################################"
