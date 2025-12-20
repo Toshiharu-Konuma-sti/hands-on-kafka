@@ -1,4 +1,0 @@
-{
-  "ksql": "CREATE STREAM streams_ksql_output WITH (KAFKA_TOPIC = 'my-streams-ksql-output', VALUE_FORMAT='JSON') AS SELECT ski.name as name, ski.gender as gender FROM streams_ksql_input ski WHERE gender='M' OR gender='X';",
-  "streamsProperties": {}
-}

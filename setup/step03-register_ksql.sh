@@ -14,12 +14,12 @@ echo "\n### START: Register KSQL streams ##########"
 curl -v -X "POST" \
 	"http://$HOST_KSQLSVR/ksql" \
 	-H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-	-d @$SET_DIR/config/ksql-create-stream-input.json
+	-d @$SET_DIR/config/stream_ksql_input.json
 
 curl -v -X "POST" \
 	"http://$HOST_KSQLSVR/ksql" \
 	-H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-	-d @$SET_DIR/config/ksql-create-stream-output.json
+	-d @$SET_DIR/config/stream_ksql_output.json
 
 curl -v -X "POST" \
 	"http://$HOST_KSQLSVR/ksql" \

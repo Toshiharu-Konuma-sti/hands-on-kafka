@@ -13,7 +13,7 @@ def main():
             message STRING
         ) WITH (
             'connector' = 'kafka',
-            'topic' = 'input-topic',
+            'topic' = 'my-stream-flink-job-input',
             'properties.bootstrap.servers' = 'broker:29092',
             'properties.group.id' = 'pyflink-group',
             'scan.startup.mode' = 'earliest-offset',
@@ -29,7 +29,7 @@ def main():
             processed_message STRING
         ) WITH (
             'connector' = 'kafka',
-            'topic' = 'output-topic',
+            'topic' = 'my-stream-flink-job-output',
             'properties.bootstrap.servers' = 'broker:29092',
             'format' = 'csv'
         )

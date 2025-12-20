@@ -11,9 +11,10 @@ echo "############################################################"
 $CUR_DIR/step01-install_command.sh
 $CUR_DIR/step02-create_topic.sh
 $CUR_DIR/step03-register_ksql.sh
-$CUR_DIR/step04-register_connector.sh
-$CUR_DIR/step05-bind_stream_to_topic.sh
-$CUR_DIR/step06-list_topic.sh
+$CUR_DIR/step04-register_flink.sh
+$CUR_DIR/step05-register_connector.sh
+$CUR_DIR/step06-bind_stream_to_topic.sh
+$CUR_DIR/step07-list_topic.sh
 
 E_TIME=$(date +%s)
 DURATION=$((E_TIME - S_TIME))

@@ -22,6 +22,9 @@ case "$1" in
 		clear
 		show_list_container
 		;;
+	"info")
+		show_url
+		;;
 	"")
 		clear
 		start_banner

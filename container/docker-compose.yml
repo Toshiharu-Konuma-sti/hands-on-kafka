@@ -91,7 +91,7 @@ services:
     ports:
       - "8181:8081" # Flink Web UI
     volumes:
-      - ./flink/opt/flink/process_kafka.py:/opt/flink/process_kafka.py
+      - ../development/flink/opt/flink/process_kafka.py:/opt/flink/process_kafka.py
     command: jobmanager
     environment:
       - |

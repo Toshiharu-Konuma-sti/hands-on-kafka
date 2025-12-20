@@ -1,0 +1,4 @@
+{
+  "ksql": "CREATE STREAM stream_ksql_input (id INT, name VARCHAR, gender VARCHAR, age INT) WITH (KAFKA_TOPIC = 'my-stream-ksql-input', VALUE_FORMAT = 'JSON');",
+  "streamsProperties": {}
+}
