@@ -17,6 +17,7 @@ $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --to
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-sql-output
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-input
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-schema-avro
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-plaintext-input
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-linesplit-output
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-pipe-output

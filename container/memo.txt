@@ -69,27 +69,57 @@ SELECT * FROM streams_flink_output;
 
 ////////////////////////////
 
-h1. Schema Registory（今一つ違う気がする。web uiの管理面でトピック見てもスキーマが登録されていない...）
+h1. Schema Registory
 
-# 準備
+# preparing
 docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
-docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --replication-factor 1 --partitions 1 --topic users-avro
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-schema-avro
 
-# コンシューマー
-docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic users-avro
+# for consumer(normal command)
+docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic my-stream-schema-avro
+./kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-stream-schema-avro --from-beginning
 
-# プロデューサー（コンテナに入り込む）
-docker-compose exec schema-registry bash
+# for consumer(avro)
+docker exec -it schema-registry /bin/bash
+kafka-avro-console-consumer --bootstrap-server broker:29092 --topic my-stream-schema-avro --from-beginning
+
+# for producer
+docker exec -it schema-registry /bin/bash
 
 kafka-avro-console-producer \
   --bootstrap-server broker:29092 \
-  --topic users-avro \
+  --topic my-stream-schema-avro \
   --property schema.registry.url=http://localhost:8081 \
-  --property value.schema='{"type":"record","name":"User","fields":[{"name":"name","type":"string"},{"name":"age","type":"int"}]}'
+  --property value.schema='{
+    "type": "record",
+    "name": "User",
+    "fields": [
+      {"name": "id", "type": "int"},
+      {"name": "name", "type": "string"},
+      {
+        "name": "gender",
+        "type": {
+          "type": "enum",
+          "name": "GenderEnum",
+          "symbols": ["M", "F"]
+        }
+      },
+      {"name": "age", "type": "int"}
+    ]
+  }'
+
 
 入力待ちになったらデータを打ち込む
 ・成功データ
-{"name": "Alice", "age": 30}
+{"id":1, "name":"taro", "gender":"M", "age":10}
+{"id":2, "name":"hanako", "gender":"F", "age":20}
 
 ・エラーデータ
-{"name": "Bob", "age": "invalid"}
+{"id":3, "name":"tama", "gender":"X", "age":30}
+
+・成功データ（余分なフィールド除去）
+{"id":4, "name":"tamako", "gender":"F", "age":40, "address":"Tokyo"}
+
+* データ送信するとWeb UIにもスキーマが見えてくる
+  - http://localhost:9021/clusters/LQZ4M_EyTfyMsTkoEAnbOw/management/topics/my-stream-schema-avro/schema/value
+
