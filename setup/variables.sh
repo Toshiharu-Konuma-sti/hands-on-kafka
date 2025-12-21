@@ -1,6 +1,7 @@
 
 ### for kafka version number ##########
-VER_NUM="3.8.0"
+KF_VER_NUM="3.8.0"
+CT_VER_NUM="7.9"
 
 ### for name of host ##########
 HOST_BROKER=localhost:9092

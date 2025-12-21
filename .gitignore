@@ -28,5 +28,7 @@ replay_pid*
 development/streams/apisl.handson.kafka.streams/target/
 try-my-hand/kafka_*-*.tgz
 try-my-hand/kafka/
+try-my-hand/confluent-community-*.tar.gz
+try-my-hand/confluent/
 try-my-hand/apisl.handson.kafka.streams/
 
