@@ -6,11 +6,8 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 
 call_show_start_banner
 
-TRY_DIR=$(call_path_of_experience $CUR_DIR)
-echo "### the dir for experiences = [$TRY_DIR] ##########"
-
 echo "\n### START: Show the list of topics ##########"
 
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --list
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
 
 call_show_finish_banner
