@@ -1,25 +1,4 @@
 
-h1. Flink Job
-
-# preparing
-docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
-
-docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-input
-docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-output
-
-# run the job
-docker exec -it jobmanager ./bin/flink run --python /opt/flink/process_kafka.py
-
-# for consumer
-docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic my-stream-flink-job-output
-
-# for producer
-docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --topic my-stream-flink-job-input
-> tanaka,hello pyflink
-> sato,kafka is fun
-
-////////////////////////////
-
 h1. Flink SQL
 
 - 別ターミナルで送信受信を試す
@@ -66,6 +45,27 @@ SHOW JOBS;
 
 SELECT * FROM streams_flink_input;
 SELECT * FROM streams_flink_output;
+
+////////////////////////////
+
+h1. Flink Job
+
+# preparing
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --list
+
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-input
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-output
+
+# run the job
+docker exec -it jobmanager ./bin/flink run --python /opt/flink/uppercase_users.py
+
+# for consumer
+docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic my-stream-flink-job-output
+
+# for producer
+docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --topic my-stream-flink-job-input
+> tanaka,hello pyflink
+> sato,kafka is fun
 
 ////////////////////////////
 

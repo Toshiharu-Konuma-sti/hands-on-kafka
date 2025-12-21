@@ -91,7 +91,7 @@ services:
     ports:
       - "8181:8081" # Flink Web UI
     volumes:
-      - ../development/flink/opt/flink/process_kafka.py:/opt/flink/process_kafka.py
+      - ../development/flink/opt/flink/uppercase_users.py:/opt/flink/uppercase_users.py
     command: jobmanager
     environment:
       - |
