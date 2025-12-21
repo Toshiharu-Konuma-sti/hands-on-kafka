@@ -6,22 +6,19 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 
 call_show_start_banner
 
-TRY_DIR=$(call_path_of_experience $CUR_DIR)
-echo "### the dir for experiences = [$TRY_DIR] ##########"
-
 echo "\n### START: Create topics ##########"
 
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-topic
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-ksql-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-sql-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-sql-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-schema-avro
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-plaintext-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-linesplit-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-pipe-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-wordcount-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-myhandson-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-topic
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-ksql-input
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-sql-input
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-sql-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-input
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-job-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-schema-avro
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-plaintext-input
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-linesplit-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-pipe-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-wordcount-output
+docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-myhandson-output
 
 call_show_finish_banner
