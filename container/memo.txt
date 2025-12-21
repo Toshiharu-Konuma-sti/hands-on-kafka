@@ -82,6 +82,7 @@ docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --
 # for consumer(avro)
 docker exec -it schema-registry /bin/bash
 kafka-avro-console-consumer --bootstrap-server broker:29092 --topic my-stream-schema-avro --from-beginning
+./confluent/bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic my-stream-schema-avro --from-beginning
 
 # for producer
 docker exec -it schema-registry /bin/bash
