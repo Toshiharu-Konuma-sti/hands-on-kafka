@@ -12,11 +12,16 @@ echo "### the dir for experiences = [$TRY_DIR] ##########"
 echo "\n### START: Create topics ##########"
 
 $TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-topic
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-ksql-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-plaintext-input
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-linesplit-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-pipe-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-wordcount-output
-$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-streams-myhandson-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-ksql-input
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-sql-input
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-sql-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-input
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-flink-job-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-schema-avro
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-plaintext-input
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-linesplit-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-pipe-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-wordcount-output
+$TRY_DIR/kafka/bin/kafka-topics.sh --bootstrap-server $HOST_BROKER --create --topic my-stream-myhandson-output
 
 call_show_finish_banner

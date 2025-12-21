@@ -28,8 +28,8 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * In this example, we implement a simple LineSplit program using the high-level Streams DSL
- * that reads from a source topic "my-streams-plaintext-input", where the values of messages represent lines of text,
- * and writes the messages as-is into a sink topic "my-streams-pipe-output".
+ * that reads from a source topic "my-stream-plaintext-input", where the values of messages represent lines of text,
+ * and writes the messages as-is into a sink topic "my-stream-pipe-output".
  */
 public class Pipe {
 
@@ -47,7 +47,7 @@ public class Pipe {
 
         final StreamsBuilder builder = new StreamsBuilder();
 
-        builder.stream("my-streams-plaintext-input").to("my-streams-pipe-output");
+        builder.stream("my-stream-plaintext-input").to("my-stream-pipe-output");
 
         final Topology topology = builder.build();
         final KafkaStreams streams = new KafkaStreams(topology, props);

@@ -30,8 +30,8 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * In this example, we implement a simple MyApp program using the high-level Streams DSL
- * that reads from a source topic "my-streams-plaintext-input", where the values of messages represent lines of text;
- * the code split each text line in string into words and then write back into a sink topic "my-streams-linesplit-output" where
+ * that reads from a source topic "my-stream-plaintext-input", where the values of messages represent lines of text;
+ * the code split each text line in string into words and then write back into a sink topic "my-stream-linesplit-output" where
  * each record represents a single word.
  */
 public class MyHandsOn {
@@ -50,7 +50,7 @@ public class MyHandsOn {
 
 		final StreamsBuilder builder = new StreamsBuilder();
 
-		builder.<String, String>stream("my-streams-plaintext-input")
+		builder.<String, String>stream("my-stream-plaintext-input")
 			.flatMapValues(new ValueMapper<String, Iterable<String>>() {
 				@Override
 				public Iterable<String> apply(String value) {
@@ -68,7 +68,7 @@ public class MyHandsOn {
 					return new String(chars);
 				}
 			})
-			.to("my-streams-myhandson-output");
+			.to("my-stream-myhandson-output");
 
 		final Topology topology = builder.build();
 		final KafkaStreams streams = new KafkaStreams(topology, props);

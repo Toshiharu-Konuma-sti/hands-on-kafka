@@ -41,6 +41,9 @@ show_url()
  * - Navigate to Web ui tools with the URL below.
  *   - Control Center:  http://localhost:9021
  *   - Flink dashboard: http://localhost:8181
+ * - Access the REST API endpoint with the following URL.
+ *   - KSQL:            http://localhost:8088
+ *   - Flink:           http://localhost:8183
  ***********************************************************/
 
 EOS
