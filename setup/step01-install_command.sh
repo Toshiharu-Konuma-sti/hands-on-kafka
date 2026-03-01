@@ -15,8 +15,9 @@ KF_BINARY_URL="https://ftp.riken.jp/net/apache/kafka/$KF_VER_NUM/$KF_ARCHIVE"
 KF_DOWNLOADED=$TRY_DIR/$KF_ARCHIVE
 KF_CLITOP_DIR=$TRY_DIR/kafka
 
-CT_ARCHIVE="confluent-community-$CT_VER_NUM.0.tar.gz"
-CT_BINARY_URL="https://packages.confluent.io/archive/$CT_VER_NUM/$CT_ARCHIVE"
+CT_VER="${CT_VER_NUM%.*}"
+CT_ARCHIVE="confluent-community-$CT_VER_NUM.tar.gz"
+CT_BINARY_URL="https://packages.confluent.io/archive/$CT_VER/$CT_ARCHIVE"
 CT_DOWNLOADED=$TRY_DIR/$CT_ARCHIVE
 CT_CLITOP_DIR=$TRY_DIR/confluent
 
