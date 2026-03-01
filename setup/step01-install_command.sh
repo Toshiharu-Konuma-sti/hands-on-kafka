@@ -24,17 +24,17 @@ if [ ! -d $TRY_DIR ]; then
 	mkdir $TRY_DIR
 fi
 
-echo "\n### START: Install JDK ##########"
-java -version
-if [ $? -ne 0 ]; then
-	sudo apt install -y openjdk-8-jdk-headless
-fi
+#echo "\n### START: Install JDK ##########"
+#java -version
+#if [ $? -ne 0 ]; then
+#	sudo apt install -y openjdk-8-jdk-headless
+#fi
 
-echo "\n### START: Install Maven ##########"
-mvn -version
-if [ $? -ne 0 ]; then
-	sudo apt install -y maven
-fi
+#echo "\n### START: Install Maven ##########"
+#mvn -version
+#if [ $? -ne 0 ]; then
+#	sudo apt install -y maven
+#fi
 
 echo "\n### START: Get CLI tool for Kafka ##########"
 

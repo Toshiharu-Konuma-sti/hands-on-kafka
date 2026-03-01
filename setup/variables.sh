@@ -1,6 +1,6 @@
 
 ### for kafka version number ##########
-KF_VER_NUM="3.8.0"
+KF_VER_NUM="3.9.2"
 CT_VER_NUM="7.9"
 
 ### for name of host ##########

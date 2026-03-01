@@ -9,7 +9,7 @@ create_container()
 #	docker volume create --name=postgres_data
 #	docker volume create --name=dtrack-data
 #	docker volume create --name=postgres-data
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		up -d -V --remove-orphans
 }
@@ -21,13 +21,31 @@ destory_container()
 {
 	CUR_DIR=$1
 	echo "\n### START: Destory existing containers ##########"
-	docker-compose \
+	docker compose \
 		-f $CUR_DIR/docker-compose.yml \
 		down -v --remove-orphans
 #	docker volume rm artifactory_data
 #	docker volume rm postgres_data
 #	docker volume rm dtrack-data
 #	docker volume rm postgres-data
+}
+# }}}
+
+# {{{ rebuild_container()
+# $1: the current directory
+# $2: the name of container to rebuild
+rebuild_container()
+{
+	CUR_DIR=$1
+	CONTAINER_NM=$2
+	echo "\n### START: Rebuild a container ##########"
+	docker stop $CONTAINER_NM
+	IMAGE_NM=$(docker inspect --format='{{.Config.Image}}' $CONTAINER_NM)
+	docker rm $CONTAINER_NM
+	docker rmi $IMAGE_NM
+	docker-compose \
+		-f $CUR_DIR/docker-compose.yml \
+		up -d -V --build $CONTAINER_NM
 }
 # }}}
 
@@ -62,6 +80,8 @@ already running, stop them and remove resources beforehand.
 Options:
   up                    Start the containers.
   down                  Stop the containers and remove resources.
+  rebuild {container}   Stop the specified container, removes its image, and
+                        restarts it.
   list                  Show the list of containers.
   info                  Show the information such as URLs.
 

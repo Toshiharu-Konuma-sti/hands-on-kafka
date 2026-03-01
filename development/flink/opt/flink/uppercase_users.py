@@ -1,12 +1,36 @@
 from pyflink.table import EnvironmentSettings, TableEnvironment
+from pyflink.table.expressions import col
+from pyflink.table.udf import udf
+from pyflink.table.types import DataTypes
+
+# ---------------------------------------------------
+# 1. Pythonで独自のデータ変換関数（UDF）を定義する
+# ---------------------------------------------------
+
+@udf(result_type=DataTypes.STRING())
+def process_name(name: str) -> str:
+    """名前を大文字にし、空白を除去するPython関数"""
+    if name is None:
+        return "UNKNOWN"
+    return name.strip().upper()
+
+@udf(result_type=DataTypes.STRING())
+def process_message(msg: str) -> str:
+    """メッセージを装飾するPython関数"""
+    if msg is None:
+        return "No message"
+    # ここに外部APIを叩く処理や、複雑な正規表現による編集なども書けます
+    return f"Python Edited: {msg.strip()}"
+
+# ---------------------------------------------------
+# 2. メインの処理フロー
+# ---------------------------------------------------
 
 def main():
-    # 1. Flink環境の設定
     env_settings = EnvironmentSettings.in_streaming_mode()
     t_env = TableEnvironment.create(env_settings)
 
-    # 2. Sourceテーブル（入力元）の定義
-    # 前回のSQL Clientと同じ設定です
+    # 入出力の「接続設定」だけはDDL（SQL）で定義するのがPyFlinkの標準的な手法です
     t_env.execute_sql("""
         CREATE TABLE source_table (
             user_name STRING,
@@ -21,8 +45,6 @@ def main():
         )
     """)
 
-    # 3. Sinkテーブル（出力先）の定義
-    # output-topic に書き込む設定です
     t_env.execute_sql("""
         CREATE TABLE sink_table (
             user_name_upper STRING,
@@ -35,17 +57,21 @@ def main():
         )
     """)
 
-    # 4. データ変換と転送 (ETL実行)
-    # ここでSELECTした結果がINSERTされます
-    print("Starting PyFlink Job...")
+    print("Starting PyFlink Job with Python Functions...")
+
+    # 3. SQLではなく、Pythonのコードでデータ処理の流れ（パイプライン）を構築する
     
-    t_env.execute_sql("""
-        INSERT INTO sink_table
-        SELECT 
-            UPPER(user_name),           -- 名前を大文字に変換
-            'Processed: ' || message    -- メッセージに文字を結合
-        FROM source_table
-    """)
+    # テーブルのオブジェクトを取得
+    source = t_env.from_path("source_table")
+
+    # Pythonで定義した関数（UDF）を適用してデータを変換
+    transformed_data = source.select(
+        process_name(col("user_name")).alias("user_name_upper"),
+        process_message(col("message")).alias("processed_message")
+    )
+
+    # 変換したデータを出力先へ流し込む（実行）
+    transformed_data.execute_insert("sink_table")
 
 if __name__ == '__main__':
     main()
