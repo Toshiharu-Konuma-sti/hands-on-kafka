@@ -1,6 +1,7 @@
 #!/bin/sh
 
 CUR_DIR=$(cd $(dirname $0); pwd)
+. $CUR_DIR/common.sh
 . $CUR_DIR/functions.sh
 . $CUR_DIR/variables.sh
 
@@ -36,6 +37,8 @@ fi
 #if [ $? -ne 0 ]; then
 #	sudo apt install -y maven
 #fi
+
+check_required_commands "java mvn"
 
 echo "\n### START: Get CLI tool for Kafka ##########"
 

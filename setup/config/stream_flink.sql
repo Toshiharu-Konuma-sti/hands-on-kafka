@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS streams_flink_input;
+DROP TABLE IF EXISTS stream_flink_input;
 
-CREATE TABLE streams_flink_input (
+CREATE TABLE stream_flink_input (
     id INT,
     name STRING,
     gender STRING,
@@ -13,9 +13,9 @@ CREATE TABLE streams_flink_input (
     'format' = 'json'
 );
 
-DROP TABLE IF EXISTS streams_flink_output;
+DROP TABLE IF EXISTS stream_flink_output;
 
-CREATE TABLE streams_flink_output (
+CREATE TABLE stream_flink_output (
     name STRING,
     gender STRING
 ) WITH (
@@ -26,7 +26,7 @@ CREATE TABLE streams_flink_output (
     'format' = 'json'
 );
 
-INSERT INTO streams_flink_output
+INSERT INTO stream_flink_output
 SELECT name, gender
-FROM streams_flink_input
+FROM stream_flink_input
 WHERE gender = 'M' OR gender = 'X';
