@@ -14,7 +14,7 @@ echo "\n### START: Register Connectors ##########"
 curl -v -X POST \
 	"http://$HOST_DEBEZIUM/connectors" \
 	-H "Content-Type: application/json" \
-	-d @$SET_DIR/config/debezium.json | \
+	-d @${SET_DIR}/config/debezium.json | \
 	jq
 
 call_show_finish_banner

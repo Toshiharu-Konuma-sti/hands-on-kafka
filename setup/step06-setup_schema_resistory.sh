@@ -15,12 +15,12 @@ docker exec broker kafka-topics --bootstrap-server broker:29092 --create --topic
 docker exec broker kafka-topics --bootstrap-server broker:29092 --list
 
 echo "\n### START: Execute Flink Job ##########"
-RAW_SCHEMA=$(jq -c . "$SET_DIR/config/stream_schema.json")
-PAYLOAD=$(jq -n --arg st "JSON" --arg sc "$RAW_SCHEMA" '{schemaType: $st, schema: $sc}')
+PAYLOAD=$(jq -c '{schemaType: "JSON", schema: tojson}' "${SET_DIR}/config/stream_schema.json")
+echo ${PAYLOAD} | jq
 
-curl -X POST \
+curl -v -X POST \
 	-H "Content-Type: application/vnd.schemaregistry.v1+json" \
-	-d "$PAYLOAD" \
+	-d "${PAYLOAD}" \
 	http://localhost:8081/subjects/my-stream-schema-test-value/versions
 
 call_show_finish_banner
