@@ -3,22 +3,17 @@
 clear
 S_TIME=$(date +%s)
 CUR_DIR=$(cd $(dirname $0); pwd)
+. ${CUR_DIR}/common.sh
 
-echo "############################################################"
-echo "# START SCRIPT"
-echo "############################################################"
+start_banner
 
-$CUR_DIR/step01-install_command.sh
-$CUR_DIR/step02-create_topic.sh
-$CUR_DIR/step03-register_ksql.sh
-$CUR_DIR/step04-register_flink.sh
-$CUR_DIR/step05-register_connector.sh
-$CUR_DIR/step06-bind_stream_to_topic.sh
-$CUR_DIR/step07-list_topic.sh
+${CUR_DIR}/step01-download_cli_command.sh
+${CUR_DIR}/step02-create_topic.sh
+${CUR_DIR}/step03-register_ksql.sh
+${CUR_DIR}/step04-register_flink.sh
+${CUR_DIR}/step05-register_schema.sh
+${CUR_DIR}/step06-bind_stream_to_topic.sh
+${CUR_DIR}/step07-register_connector.sh
+${CUR_DIR}/step08-list_topic.sh
 
-E_TIME=$(date +%s)
-DURATION=$((E_TIME - S_TIME))
-
-echo "############################################################"
-echo "# FINISH SCRIPT ($DURATION seconds)"
-echo "############################################################"
+finish_banner ${S_TIME}
