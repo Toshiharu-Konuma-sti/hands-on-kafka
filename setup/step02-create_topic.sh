@@ -1,8 +1,8 @@
 #!/bin/sh
 
 CUR_DIR=$(cd $(dirname $0); pwd)
-. $CUR_DIR/functions.sh
-. $CUR_DIR/variables.sh
+. ${CUR_DIR}/common.sh
+. ${CUR_DIR}/variables.sh
 
 # {{{ main()
 main()
