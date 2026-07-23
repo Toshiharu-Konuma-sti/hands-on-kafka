@@ -13,21 +13,24 @@ main()
 
 	echo "\n### START: Register KSQL streams ##########"
 
-	curl -v -X "POST" \
-		"http://$HOST_KSQLSVR/ksql" \
-		-H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-		-d @$SET_DIR/config/stream_ksql_input.json
+	_cmd_ksql_i="curl -v -X POST
+		\"http://${HOST_KSQLSVR}/ksql\"
+		-H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\"
+		-d \"@$SET_DIR/config/stream_ksql_input.json\""
+	_body_ksql_i=$(loop_curl_until_success "${_cmd_ksql_i}")
 
-	curl -v -X "POST" \
-		"http://$HOST_KSQLSVR/ksql" \
-		-H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-		-d @$SET_DIR/config/stream_ksql_output.json
+	_cmd_ksql_o="curl -v -X POST
+		\"http://${HOST_KSQLSVR}/ksql\"
+		-H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\"
+		-d \"@$SET_DIR/config/stream_ksql_output.json\""
+	_body_ksql_o=$(loop_curl_until_success "${_cmd_ksql_o}")
 
-	curl -v -X "POST" \
-		"http://$HOST_KSQLSVR/ksql" \
-		-H "Content-Type: application/vnd.ksql.v1+json; charset=utf-8" \
-		-d '{"ksql": "SHOW STREAMS;", "streamsProperties": {}}' | \
-		jq
+	_cmd_ksql="curl -v -X POST
+		\"http://${HOST_KSQLSVR}/ksql\"
+		-H \"Content-Type: application/vnd.ksql.v1+json; charset=utf-8\"
+		-d \"{\\\"ksql\\\": \\\"SHOW STREAMS;\\\", \\\"streamsProperties\\\": {}}\""
+	_body_ksql=$(loop_curl_until_success "${_cmd_ksql}")
+	echo ${_body_ksql} | jq
 }
 # }}}
 

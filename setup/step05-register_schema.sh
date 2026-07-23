@@ -16,10 +16,11 @@ main()
 	_payload=$(jq -c '{schemaType: "JSON", schema: tojson}' "${CUR_DIR}/config/stream_schema.json")
 	echo ${_payload} | jq
 
-	curl -v -X POST \
-		-H "Content-Type: application/vnd.schemaregistry.v1+json" \
-		-d "${_payload}" \
-		http://${HOST_SCHEMA}/subjects/my-stream-schema-json-value/versions
+	_cmd_schema="curl -v -X POST
+		-H \"Content-Type: application/vnd.schemaregistry.v1+json\"
+		-d '${_payload}'
+		\"http://${HOST_SCHEMA}/subjects/my-stream-schema-json-value/versions\""
+	_body_schema=$(loop_curl_until_success "${_cmd_schema}")
 }
 # }}}
 
