@@ -121,18 +121,17 @@ services:
   schema-registry:
     hostname: schema-registry
     container_name: schema-registry
-    image: confluentinc/cp-schema-registry:7.8.1
+    image: quay.io/apicurio/apicurio-registry:latest
     networks:
       - internal
       - external
     depends_on:
       - broker
     ports:
-      - "8081:8081"
+      - "8081:8080" # Apicurio internal port is 8080
     environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      APICURIO_STORAGE_KIND: kafkasql
+      APICURIO_KAFKASQL_BOOTSTRAP_SERVERS: broker:29092
     restart: unless-stopped
 
   # --- streams application Ecosystem ---

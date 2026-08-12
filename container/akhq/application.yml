@@ -4,7 +4,7 @@ akhq:
       properties:
         bootstrap.servers: "broker:29092"
       schema-registry:
-        url: "http://schema-registry:8081"
+        url: "http://schema-registry:8081/apis/ccompat/v7"
       connect:
         - name: debezium
           url: "http://debezium:8083"

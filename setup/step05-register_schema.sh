@@ -19,7 +19,7 @@ main()
 	_cmd_schema="curl -v -X POST
 		-H \"Content-Type: application/vnd.schemaregistry.v1+json\"
 		-d '${_payload}'
-		\"http://${HOST_SCHEMA}/subjects/my-stream-schema-json-value/versions\""
+		\"http://${HOST_SCHEMA}/apis/ccompat/v7/subjects/my-stream-schema-json-value/versions\""
 	_body_schema=$(loop_curl_until_success "${_cmd_schema}")
 }
 # }}}
