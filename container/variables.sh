@@ -6,3 +6,8 @@ KF_ARCHIVE="kafka_2.13-$KF_VER_NUM.tgz"
 HOST_BROKER=localhost:9092
 HOST_SCHEMA=localhost:8081
 HOST_DEBEZIUM=localhost:8083
+
+# endpoints used inside handson-client container
+CONTAINER_BROKER=kafka:29092
+ENDPOINT_SCHEMA=http://schema-registry:8080/apis/ccompat/v7
+KF_BIN=/opt/kafka/bin
