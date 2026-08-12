@@ -9,10 +9,10 @@ start_banner
 
 ${CUR_DIR}/step01-download_cli_command.sh
 ${CUR_DIR}/step02-create_topic.sh
-${CUR_DIR}/step04-register_flink.sh
-${CUR_DIR}/step05-register_schema.sh
-${CUR_DIR}/step06-bind_stream_to_topic.sh
-${CUR_DIR}/step07-register_connector.sh
-${CUR_DIR}/step08-list_topic.sh
+${CUR_DIR}/step03-register_flink.sh
+${CUR_DIR}/step04-register_schema.sh
+${CUR_DIR}/step05-bind_stream_to_topic.sh
+${CUR_DIR}/step06-register_connector.sh
+${CUR_DIR}/step07-list_topic.sh
 
 finish_banner ${S_TIME}
