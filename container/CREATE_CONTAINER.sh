@@ -9,11 +9,15 @@ case "$1" in
 	"up")
 		clear
 		start_banner
+		check_required_commands "docker"
+		create_container $CUR_DIR
+		show_list_container
 		finish_banner $S_TIME
 		;;
 	"down")
 		clear
 		start_banner
+		check_required_commands "docker"
 		destory_container $CUR_DIR
 		show_list_container
 		finish_banner $S_TIME
@@ -36,9 +40,9 @@ case "$1" in
 	"")
 		clear
 		start_banner
+		check_required_commands "docker"
 		destory_container $CUR_DIR
 		create_container $CUR_DIR
-
 		show_list_container
 		show_url
 		finish_banner $S_TIME

@@ -71,7 +71,7 @@ services:
   schema-registry:
     hostname: schema-registry
     container_name: schema-registry
-    image: quay.io/apicurio/apicurio-registry:latest
+    image: quay.io/apicurio/apicurio-registry:3.3
     networks:
       - internal
       - external
@@ -145,7 +145,7 @@ services:
 
   # --- web ui Ecosystem ---
   akhq:
-    image: tchiotludo/akhq:latest
+    image: tchiotludo/akhq:0.28.0
     hostname: akhq
     container_name: akhq
     networks:
