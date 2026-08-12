@@ -21,7 +21,7 @@ CREATE TABLE streams_flink_input (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'my-stream-flink-sql-input',
-    'properties.bootstrap.servers' = 'broker:29092',
+    'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
 );
@@ -32,7 +32,7 @@ CREATE TABLE streams_flink_output (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'my-stream-flink-sql-output',
-    'properties.bootstrap.servers' = 'broker:29092',
+    'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
 );
@@ -51,19 +51,19 @@ SELECT * FROM streams_flink_output;
 h1. Flink Job
 
 # preparing
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --list
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --list
 
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --create --topic my-stream-flink-job-input
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --create --topic my-stream-flink-job-output
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --topic my-stream-flink-job-input
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --topic my-stream-flink-job-output
 
 # run the job
 docker exec -it jobmanager ./bin/flink run --python /opt/flink/uppercase_users.py
 
 # for consumer
-docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic my-stream-flink-job-output
+docker exec -it kafka kafka-console-consumer --bootstrap-server kafka:29092 --topic my-stream-flink-job-output
 
 # for producer
-docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --topic my-stream-flink-job-input
+docker exec -it kafka kafka-console-producer --bootstrap-server kafka:29092 --topic my-stream-flink-job-input
 > tanaka,hello pyflink
 > sato,kafka is fun
 
@@ -72,23 +72,23 @@ docker exec -it broker kafka-console-producer --bootstrap-server broker:29092 --
 h1. Schema Registory
 
 # preparing
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --list
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --create --topic my-stream-schema-avro
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --list
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --topic my-stream-schema-avro
 
 # for consumer(normal command)
-docker exec -it broker kafka-console-consumer --bootstrap-server broker:29092 --topic my-stream-schema-avro
+docker exec -it kafka kafka-console-consumer --bootstrap-server kafka:29092 --topic my-stream-schema-avro
 ./kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-stream-schema-avro --from-beginning
 
 # for consumer(avro)
 docker exec -it schema-registry /bin/bash
-kafka-avro-console-consumer --bootstrap-server broker:29092 --topic my-stream-schema-avro --from-beginning
+kafka-avro-console-consumer --bootstrap-server kafka:29092 --topic my-stream-schema-avro --from-beginning
 ./confluent/bin/kafka-avro-console-consumer --bootstrap-server localhost:9092 --topic my-stream-schema-avro --from-beginning
 
 # for producer
 docker exec -it schema-registry /bin/bash
 
 kafka-avro-console-producer \
-  --bootstrap-server broker:29092 \
+  --bootstrap-server kafka:29092 \
   --topic my-stream-schema-avro \
   --property schema.registry.url=http://localhost:8081 \
   --property value.schema='{

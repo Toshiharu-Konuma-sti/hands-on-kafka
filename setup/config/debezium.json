@@ -3,7 +3,7 @@
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "tasks.max": "1",
-    "schema.history.internal.kafka.bootstrap.servers": "broker:29092",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:29092",
     "schema.history.internal.kafka.topic": "schema-changes.test",
     "internal.key.converter.schemas.enable": "false",
     "include.schema.changes": "false",
@@ -20,7 +20,7 @@
     "database.server.id": "1",
     "database.include.list": "mytest",
     "table.include.list": "mytest.user",
-    "database.history.kafka.bootstrap.servers": "broker:29092",
+    "database.history.kafka.bootstrap.servers": "kafka:29092",
     "database.history.kafka.topic": "schema-changes.test",
     "event.processing.failure.handling.mode": "warn",
     "database.connectionTimeZone": "UTC",

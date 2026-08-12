@@ -8,6 +8,6 @@ call_show_start_banner
 
 echo "\n### START: Show the list of topics ##########"
 
-docker exec -it broker /opt/kafka/bin/kafka-topics.sh --bootstrap-server broker:29092 --list
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --list
 
 call_show_finish_banner

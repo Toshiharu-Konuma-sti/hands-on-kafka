@@ -38,7 +38,7 @@ def main():
         ) WITH (
             'connector' = 'kafka',
             'topic' = 'my-stream-pyflink-input',
-            'properties.bootstrap.servers' = 'broker:29092',
+            'properties.bootstrap.servers' = 'kafka:29092',
             'properties.group.id' = 'pyflink-group',
             'scan.startup.mode' = 'earliest-offset',
             'format' = 'csv'
@@ -52,7 +52,7 @@ def main():
         ) WITH (
             'connector' = 'kafka',
             'topic' = 'my-stream-pyflink-output',
-            'properties.bootstrap.servers' = 'broker:29092',
+            'properties.bootstrap.servers' = 'kafka:29092',
             'format' = 'csv'
         )
     """)
