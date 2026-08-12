@@ -1,10 +1,18 @@
 #!/bin/sh
 
 CUR_DIR=$(cd $(dirname $0); pwd)
-. ${CUR_DIR}/variables.sh
 
-${CUR_DIR}/confluent/bin/kafka-json-schema-console-producer \
-  --bootstrap-server ${HOST_BROKER} \
+if ! docker inspect jobmanager > /dev/null 2>&1; then
+  echo "[ERROR] jobmanager container is not running." >&2
+  exit 1
+fi
+
+# install inside container only - host environment stays clean
+docker exec jobmanager pip3 install --quiet kafka-python jsonschema requests 2>/dev/null
+docker cp ${CUR_DIR}/schema-json-producer.py jobmanager:/tmp/schema-json-producer.py
+
+docker exec -i jobmanager python3 /tmp/schema-json-producer.py \
+  --bootstrap-server kafka:29092 \
   --topic my-stream-schema-json \
-  --property schema.registry.url=http://${HOST_SCHEMA}/apis/ccompat/v7 \
-  --property value.schema.id=1
+  --schema-registry-url http://schema-registry:8080/apis/ccompat/v7 \
+  --schema-id 1
