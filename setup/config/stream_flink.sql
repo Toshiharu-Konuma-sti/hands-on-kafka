@@ -8,7 +8,7 @@ CREATE TABLE streams_flink_input (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'my-stream-flink-sql-input',
-    'properties.bootstrap.servers' = 'broker:29092',
+    'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
 );
@@ -21,7 +21,7 @@ CREATE TABLE streams_flink_output (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'my-stream-flink-sql-output',
-    'properties.bootstrap.servers' = 'broker:29092',
+    'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
 );

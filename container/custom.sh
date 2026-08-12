@@ -49,6 +49,44 @@ rebuild_container()
 }
 # }}}
 
+
+# {{{ call_path_of_container()
+# $1: the current directory
+call_path_of_container()
+{
+	TARGET=$(realpath $1/../container)
+	echo "$TARGET"
+}
+# }}}
+
+# {{{ call_path_of_setup()
+# $1: the current directory
+call_path_of_setup()
+{
+	TARGET=$(realpath $1/../setup)
+	echo "$TARGET"
+}
+# }}}
+
+# {{{ call_path_of_development()
+# $1: the current directory
+call_path_of_development()
+{
+	TARGET=$(realpath $1/../development)
+	echo "$TARGET"
+}
+# }}}
+
+# {{{ call_path_of_experience()
+# $1: the current directory
+call_path_of_experience()
+{
+	TARGET=$(realpath $1/../try-my-hand)
+	echo "$TARGET"
+}
+# }}}
+
+
 # {{{ show_url()
 show_url()
 {
@@ -57,11 +95,8 @@ show_url()
 /************************************************************
  * Information:
  * - Navigate to Web ui tools with the URL below.
- *   - Control Center:  http://localhost:9021
+ *   - AKHQ:            http://localhost:8080
  *   - Flink dashboard: http://localhost:8181
- * - Access the REST API endpoint with the following URL.
- *   - KSQL:            http://localhost:8088
- *   - Flink:           http://localhost:8183
  ***********************************************************/
 
 EOS
@@ -88,3 +123,4 @@ Options:
 EOS
 }
 # }}}
+
