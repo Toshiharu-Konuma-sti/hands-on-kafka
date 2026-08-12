@@ -10,8 +10,6 @@ main()
 	echo "\n### START: Create topics ##########"
 
 	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-topic
-	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-ksql-input
-	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-ksql-output
 	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-sql-input
 	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-flink-sql-output
 	docker exec -it broker kafka-topics --bootstrap-server broker:29092 --create --topic my-stream-pyflink-input

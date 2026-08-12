@@ -8,6 +8,3 @@ akhq:
       connect:
         - name: debezium
           url: "http://debezium:8083"
-      ksqldb:
-        - name: ksqldb
-          url: "http://ksql-server:8088"
