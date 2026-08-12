@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 CUR_DIR=$(cd $(dirname $0); pwd)
 . ${CUR_DIR}/common.sh
