@@ -152,7 +152,7 @@ services:
       - internal
       - external
     ports:
-      - 9021:8080
+      - 8080:8080
     depends_on:
       - kafka
     environment:
