@@ -95,7 +95,7 @@ show_url()
 /************************************************************
  * Information:
  * - Navigate to Web ui tools with the URL below.
- *   - Control Center:  http://localhost:9021
+ *   - AKHQ:            http://localhost:9021
  *   - Flink dashboard: http://localhost:8181
  ***********************************************************/
 
