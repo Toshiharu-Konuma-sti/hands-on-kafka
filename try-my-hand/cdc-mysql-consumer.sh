@@ -3,6 +3,7 @@
 CUR_DIR=$(cd $(dirname $0); pwd)
 . ${CUR_DIR}/variables.sh
 
-${CUR_DIR}/kafka/bin/kafka-console-consumer.sh --bootstrap-server ${HOST_BROKER} \
+docker exec -it handson-client ${KF_BIN}/kafka-console-consumer.sh \
+ --bootstrap-server ${CONTAINER_BROKER} \
  --topic my-cdc-mysql.mytest.user \
  --from-beginning

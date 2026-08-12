@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 clear
 S_TIME=$(date +%s)
@@ -7,7 +8,9 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 
 start_banner
 
-${CUR_DIR}/step01-download_cli_command.sh
+check_required_commands "jq"
+
+#	${CUR_DIR}/step01-download_cli_command.sh
 ${CUR_DIR}/step02-create_topic.sh
 ${CUR_DIR}/step03-register_flink.sh
 ${CUR_DIR}/step04-register_schema.sh
