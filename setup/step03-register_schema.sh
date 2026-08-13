@@ -18,9 +18,9 @@ main()
 	echo ${_payload} | jq
 
 	_cmd_schema="curl -v -X POST
+		\"http://${HOST_SCHEMA}/apis/ccompat/v7/subjects/my-stream-schema-json-value/versions\"
 		-H \"Content-Type: application/vnd.schemaregistry.v1+json\"
-		-d '${_payload}'
-		\"http://${HOST_SCHEMA}/apis/ccompat/v7/subjects/my-stream-schema-json-value/versions\""
+		-d '${_payload}'"
 	_body_schema=$(loop_curl_until_success "${_cmd_schema}")
 }
 # }}}

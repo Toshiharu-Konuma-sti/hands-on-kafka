@@ -28,10 +28,6 @@ main()
 
 	echo "\n### START: Execute Flink DataStream API (PyFlink) ##########"
 	docker exec jobmanager ./bin/flink run -d --python /opt/flink/uppercase_users.py
-
-#	echo "\n### START: Execute Flink DataStream API (PyFlink) ##########"
-#	docker exec -it jobmanager ./bin/flink run --python /opt/flink/uppercase_users.py
-
 }
 # }}}
 
