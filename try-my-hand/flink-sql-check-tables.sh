@@ -15,7 +15,7 @@ CREATE TABLE streams_flink_input (
     age INT
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-sql-input',
+    'topic' = 'my-stream-flink-input',
     'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'scan.bounded.mode' = 'latest-offset',

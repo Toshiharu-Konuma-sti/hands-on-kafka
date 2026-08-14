@@ -40,7 +40,8 @@ services:
     ports:
       - "8181:8081" # Flink Web UI
     volumes:
-      - ../development/flink/opt/flink/uppercase_users.py:/opt/flink/uppercase_users.py
+      - ../development/flink/opt/flink/table_api.py:/opt/flink/table_api.py
+#      - ../development/flink/opt/flink/table_api_etl.py:/opt/flink/table_api_etl.py
     command: jobmanager
     environment:
       - |
