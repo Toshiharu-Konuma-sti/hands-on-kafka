@@ -8,7 +8,7 @@ docker cp ${CUR_DIR}/schema-json-consumer.py handson-client:/tmp/schema-json-con
 
 docker exec -it handson-client python3 /tmp/schema-json-consumer.py \
   --bootstrap-server ${CONTAINER_BROKER} \
-  --topic my-stream-schema-json \
+  --topic my-schema-json \
   --schema-registry-url ${ENDPOINT_SCHEMA} \
   --from-beginning \
   --print-schema-ids

@@ -45,7 +45,7 @@ def main():
             age INT
         ) WITH (
             'connector' = 'kafka',
-            'topic' = 'my-stream-flink-input',
+            'topic' = 'my-flink-input',
             'properties.bootstrap.servers' = 'kafka:29092',
             'properties.group.id' = 'pyflink-group',
             'scan.startup.mode' = 'earliest-offset',
@@ -55,11 +55,13 @@ def main():
 
     t_env.execute_sql("""
         CREATE TABLE flink_table_api_output (
+            id INT,
             name STRING,
-            gender STRING
+            gender STRING,
+            age INT
         ) WITH (
             'connector' = 'kafka',
-            'topic' = 'my-stream-flink-table-api-output',
+            'topic' = 'my-flink-table-api-output',
             'properties.bootstrap.servers' = 'kafka:29092',
             'format' = 'json'
         )
@@ -74,8 +76,10 @@ def main():
 
     # Pythonで定義した関数（UDF）を適用してデータを変換
     transformed_data = source.select(
+        col("id"),
         process_name(col("name"), col("gender")).alias("name"),
-        swapcase_str(col("gender")).alias("gender")
+        swapcase_str(col("gender")).alias("gender"),
+        col("age")
     )
 
     # 変換したデータを出力先へ流し込む（実行）

@@ -15,7 +15,7 @@ CREATE TABLE flink_table_api_input (
     age INT
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-input',
+    'topic' = 'my-flink-input',
     'properties.bootstrap.servers' = 'kafka:29092',
     'properties.group.id' = 'pyflink-group',
     'scan.startup.mode' = 'earliest-offset',
@@ -26,11 +26,13 @@ CREATE TABLE flink_table_api_input (
 DROP TABLE IF EXISTS flink_table_api_output;
 
 CREATE TABLE flink_table_api_output (
+    id INT,
     name STRING,
-    gender STRING
+    gender STRING,
+    age INT
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-table-api-output',
+    'topic' = 'my-flink-table-api-output',
     'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'scan.bounded.mode' = 'latest-offset',

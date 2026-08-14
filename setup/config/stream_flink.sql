@@ -7,7 +7,7 @@ CREATE TABLE flink_sql_input (
     age INT
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-input',
+    'topic' = 'my-flink-input',
     'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
@@ -20,7 +20,7 @@ CREATE TABLE flink_sql_output (
     gender STRING
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-sql-output',
+    'topic' = 'my-flink-sql-output',
     'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'json'
