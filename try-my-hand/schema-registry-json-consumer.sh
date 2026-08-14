@@ -4,11 +4,13 @@ set -e
 CUR_DIR=$(cd $(dirname $0); pwd)
 . ${CUR_DIR}/variables.sh
 
-docker cp ${CUR_DIR}/schema-json-consumer.py handson-client:/tmp/schema-json-consumer.py
+MY_SCRIPT=schema-registry-json-consumer.py
 
-docker exec -it handson-client python3 /tmp/schema-json-consumer.py \
+docker cp ${CUR_DIR}/${MY_SCRIPT} handson-client:/tmp/${MY_SCRIPT}
+
+docker exec -it handson-client python3 /tmp/${MY_SCRIPT} \
   --bootstrap-server ${CONTAINER_BROKER} \
-  --topic my-schema-json \
+  --topic my-schema-registry-json \
   --schema-registry-url ${ENDPOINT_SCHEMA} \
   --from-beginning \
   --print-schema-ids
