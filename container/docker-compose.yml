@@ -41,7 +41,7 @@ services:
       - "8181:8081" # Flink Web UI
     volumes:
       - ../development/flink/opt/flink/table_api.py:/opt/flink/table_api.py
-#      - ../development/flink/opt/flink/table_api_etl.py:/opt/flink/table_api_etl.py
+      - ../development/flink/opt/flink/datastream_api.py:/opt/flink/datastream_api.py
     command: jobmanager
     environment:
       - |
