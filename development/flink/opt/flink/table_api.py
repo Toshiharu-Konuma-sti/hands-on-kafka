@@ -38,7 +38,7 @@ def main():
 
     # 入出力の「接続設定」だけはDDL（SQL）で定義するのがPyFlinkの標準的な手法です
     t_env.execute_sql("""
-        CREATE TABLE source_table (
+        CREATE TABLE flink_table_api_input (
             id INT,
             name STRING,
             gender STRING,
@@ -54,7 +54,7 @@ def main():
     """)
 
     t_env.execute_sql("""
-        CREATE TABLE sink_table (
+        CREATE TABLE flink_table_api_output (
             name STRING,
             gender STRING
         ) WITH (
@@ -70,7 +70,7 @@ def main():
     # 3. SQLではなく、Pythonのコードでデータ処理の流れ（パイプライン）を構築する
 
     # テーブルのオブジェクトを取得
-    source = t_env.from_path("source_table")
+    source = t_env.from_path("flink_table_api_input")
 
     # Pythonで定義した関数（UDF）を適用してデータを変換
     transformed_data = source.select(
@@ -79,7 +79,7 @@ def main():
     )
 
     # 変換したデータを出力先へ流し込む（実行）
-    transformed_data.execute_insert("sink_table")
+    transformed_data.execute_insert("flink_table_api_output")
 
 if __name__ == '__main__':
     main()

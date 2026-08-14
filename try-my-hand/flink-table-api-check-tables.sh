@@ -6,9 +6,9 @@ trap 'docker exec jobmanager rm -f /tmp/flink_check.sql; rm -f "$SQL_FILE"' EXIT
 cat > "$SQL_FILE" << 'FLINK_SQL'
 SET sql-client.execution.result-mode=TABLEAU;
 
-DROP TABLE IF EXISTS flink_sql_input;
+DROP TABLE IF EXISTS flink_table_api_input;
 
-CREATE TABLE flink_sql_input (
+CREATE TABLE flink_table_api_input (
     id INT,
     name STRING,
     gender STRING,
@@ -17,19 +17,20 @@ CREATE TABLE flink_sql_input (
     'connector' = 'kafka',
     'topic' = 'my-stream-flink-input',
     'properties.bootstrap.servers' = 'kafka:29092',
+    'properties.group.id' = 'pyflink-group',
     'scan.startup.mode' = 'earliest-offset',
     'scan.bounded.mode' = 'latest-offset',
     'format' = 'json'
 );
 
-DROP TABLE IF EXISTS flink_sql_output;
+DROP TABLE IF EXISTS flink_table_api_output;
 
-CREATE TABLE flink_sql_output (
+CREATE TABLE flink_table_api_output (
     name STRING,
     gender STRING
 ) WITH (
     'connector' = 'kafka',
-    'topic' = 'my-stream-flink-sql-output',
+    'topic' = 'my-stream-flink-table-api-output',
     'properties.bootstrap.servers' = 'kafka:29092',
     'scan.startup.mode' = 'earliest-offset',
     'scan.bounded.mode' = 'latest-offset',
@@ -38,9 +39,9 @@ CREATE TABLE flink_sql_output (
 
 SHOW TABLES;
 
-SELECT * FROM flink_sql_input;
+SELECT * FROM flink_table_api_input;
 
-SELECT * FROM flink_sql_output;
+SELECT * FROM flink_table_api_output;
 FLINK_SQL
 
 docker cp "$SQL_FILE" jobmanager:/tmp/flink_check.sql
