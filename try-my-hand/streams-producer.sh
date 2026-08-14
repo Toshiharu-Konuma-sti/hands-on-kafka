@@ -5,4 +5,4 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 
 docker exec -it handson-client ${KF_BIN}/kafka-console-producer.sh \
  --bootstrap-server ${CONTAINER_BROKER} \
- --topic my-plaintext-input
+ --topic my-streams-plaintext-input
