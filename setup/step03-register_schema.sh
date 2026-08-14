@@ -14,7 +14,7 @@ main()
 
 	echo "\n### START: Register Schema Registory ##########"
 
-	_payload=$(jq -c '{schemaType: "JSON", schema: tojson}' "${CUR_DIR}/config/stream_schema.json")
+	_payload=$(jq -c '{schemaType: "JSON", schema: tojson}' "${CUR_DIR}/config/schema_registry.json")
 	echo ${_payload} | jq
 
 	_cmd_schema="curl -v -X POST

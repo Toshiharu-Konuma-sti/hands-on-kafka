@@ -24,7 +24,7 @@ main()
 	fi
 
 	echo "\n### START: Register Flink SQL ##########"
-	cat $SET_DIR/config/stream_flink.sql | docker exec -i jobmanager ./bin/sql-client.sh
+	cat $SET_DIR/config/flink_sql.sql | docker exec -i jobmanager ./bin/sql-client.sh
 
 	echo "\n### START: Execute Flink DataStream API (PyFlink) ##########"
 	docker exec jobmanager ./bin/flink run -d --python /opt/flink/table_api.py
