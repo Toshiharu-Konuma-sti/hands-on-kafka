@@ -29,7 +29,12 @@ def main():
 
     print(f"[INFO] Schema (id={args.schema_id}) loaded. Enter JSON messages (Ctrl+D to exit):", file=sys.stderr)
 
-    for line in sys.stdin:
+    while True:
+        sys.stderr.write("> ")
+        sys.stderr.flush()
+        line = sys.stdin.readline()
+        if not line:  # Ctrl+D (EOF)
+            break
         line = line.strip()
         if not line:
             continue

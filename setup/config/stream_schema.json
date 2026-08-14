@@ -3,7 +3,7 @@
   "properties":{
     "id":{"type":"number"},
     "name":{"type":"string"},
-    "gender":{"type":"string","enum":["M","F"]},
+    "gender":{"type":"string","enum":["M","F","X"]},
     "age":{"type":"number"}
   },
   "required":["id","name","gender"]
