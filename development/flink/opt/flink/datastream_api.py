@@ -1,6 +1,7 @@
 import json
-from pyflink.datastream import StreamExecutionEnvironment
+from pyflink.datastream import StreamExecutionEnvironment, KeyedProcessFunction
 from pyflink.datastream.connectors.kafka import KafkaSource, KafkaOffsetsInitializer
+from pyflink.datastream.state import ValueStateDescriptor
 from pyflink.common.serialization import SimpleStringSchema
 from pyflink.common.watermark_strategy import WatermarkStrategy
 from pyflink.common.typeinfo import Types
@@ -8,38 +9,80 @@ from pyflink.table import StreamTableEnvironment
 from pyflink.table.expressions import col as tcol
 
 # ---------------------------------------------------
-# 1. 変換処理を「普通のPython関数」として定義する
-#    Table APIの @udf デコレータは不要
+# 1. key_by 用のキー抽出関数
 # ---------------------------------------------------
 
-def process(json_str: str):
-    """swapcase + 性別に応じた敬称を付与する（空入力・不正入力はスキップ）"""
-    if not json_str or not json_str.strip():
-        return
+def extract_gender_key(json_str: str) -> str:
+    """gender 値を keyed state のキーとして返す"""
     try:
-        data = json.loads(json_str)
+        return json.loads(json_str).get("gender", "UNKNOWN") if json_str else "UNKNOWN"
     except (json.JSONDecodeError, TypeError):
-        return
+        return "UNKNOWN"
 
-    name = data.get("name", "")
-    gender = data.get("gender", "")
 
-    swapped = name.swapcase()
-    if gender == "M":
-        name_out = f"Mr. {swapped}"
-    elif gender == "F":
-        name_out = f"Ms. {swapped}"
-    elif gender == "X":
-        name_out = f"{swapped} - san"
-    else:
-        name_out = swapped
+# ---------------------------------------------------
+# 2. ステートフル変換: 性別グループごとの累積平均年齢と比較
+#    Table API では実現できない「レコードをまたいだ状態保持」を行う
+# ---------------------------------------------------
 
-    yield json.dumps({
-        "id": data.get("id"),
-        "name": name_out,
-        "gender": gender.swapcase(),
-        "age": data.get("age")
-    }, ensure_ascii=False)
+class AgeStatsProcessor(KeyedProcessFunction):
+
+    def open(self, runtime_context):
+        # gender キーごとに独立して永続化されるステート
+        self.age_sum = runtime_context.get_state(
+            ValueStateDescriptor("age_sum", Types.LONG()))
+        self.age_count = runtime_context.get_state(
+            ValueStateDescriptor("age_count", Types.LONG()))
+
+    def process_element(self, value, ctx):
+        if not value or not value.strip():
+            return
+        try:
+            data = json.loads(value)
+        except (json.JSONDecodeError, TypeError):
+            return
+
+        name = data.get("name", "")
+        gender = data.get("gender", "")
+        age = data.get("age")
+
+        # 不正な age はレコードごと除去
+        if age is None or not isinstance(age, int) or age < 0 or age > 120:
+            return
+
+        swapped = name.swapcase()
+        if gender == "M":
+            name_out = f"Mr. {swapped}"
+        elif gender == "F":
+            name_out = f"Ms. {swapped}"
+        elif gender == "X":
+            name_out = f"{swapped} - san"
+        else:
+            name_out = swapped
+
+        current_sum = self.age_sum.value() or 0
+        current_count = self.age_count.value() or 0
+        current_sum += age
+        current_count += 1
+        self.age_sum.update(current_sum)
+        self.age_count.update(current_count)
+
+        running_avg = current_sum / current_count
+        if age > running_avg:
+            vs_avg = "above"
+        elif age < running_avg:
+            vs_avg = "below"
+        else:
+            vs_avg = "equal"
+
+        yield json.dumps({
+            "id": data.get("id"),
+            "name": name_out,
+            "gender": gender.swapcase(),
+            "age": age,
+            "vs_avg": vs_avg,
+            "avg_age": round(running_avg, 1)
+        }, ensure_ascii=False)
 
 
 # ---------------------------------------------------
@@ -54,7 +97,7 @@ def main():
 
     # 出力: Table API DDL でシンクを定義（'raw' format で String を直接バイト列として書き込む）
     t_env.execute_sql("""
-        CREATE TABLE sink_table (
+        CREATE TABLE flink_datastream_api_sink (
             `value` STRING
         ) WITH (
             'connector' = 'kafka',
@@ -76,13 +119,15 @@ def main():
     print("Starting PyFlink DataStream API Job...")
 
     # 3. DataStreamパイプラインの構築
-    #    Table APIの .select(udf(...)) と異なり、レコード単位の関数変換で組み立てる
+    #    gender でキー付けし、性別グループごとのステートフル処理を適用する
     ds = env.from_source(source, WatermarkStrategy.no_watermarks(), "Kafka Source")
-    processed_ds = ds.flat_map(process, output_type=Types.STRING())
+    result_ds = (
+        ds
+        .key_by(extract_gender_key, key_type=Types.STRING())
+        .process(AgeStatsProcessor(), output_type=Types.STRING())
+    )
 
-    # DataStream を Table に変換してシンクへ流し込む
-    # Table APIと異なり、execute_insert() で明示的に実行する
-    t_env.from_data_stream(processed_ds, tcol("value")).execute_insert("sink_table")
+    t_env.from_data_stream(result_ds, tcol("value")).execute_insert("flink_datastream_api_sink")
 
 
 if __name__ == "__main__":
