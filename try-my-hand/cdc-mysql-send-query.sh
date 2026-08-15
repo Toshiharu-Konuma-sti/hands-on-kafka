@@ -1,7 +1,5 @@
 #!/bin/sh
-
-#	CUR_DIR=$(cd $(dirname $0); pwd)
-#	. ${CUR_DIR}/variables.sh
+set -e
 
 docker exec mysql mysql -u myuser -pmypass -D mytest -e "INSERT INTO user(name) VALUES ('taro sios');"
 docker exec mysql mysql -u myuser -pmypass -D mytest -e "INSERT INTO user(name) VALUES ('hanako sios');"
