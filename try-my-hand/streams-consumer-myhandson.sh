@@ -6,7 +6,7 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 docker exec -it handson-client ${KF_BIN}/kafka-console-consumer.sh \
  --bootstrap-server ${CONTAINER_BROKER} \
  --topic my-streams-myhandson-output \
- --property print.partition=true \
- --property print.offset=true \
- --property print.key=true \
+ --formatter-property print.partition=true \
+ --formatter-property print.offset=true \
+ --formatter-property print.key=true \
  --from-beginning
