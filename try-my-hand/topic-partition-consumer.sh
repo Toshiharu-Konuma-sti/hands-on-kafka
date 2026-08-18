@@ -5,8 +5,8 @@ CUR_DIR=$(cd $(dirname $0); pwd)
 
 docker exec -it handson-client ${KF_BIN}/kafka-console-consumer.sh \
  --bootstrap-server ${CONTAINER_BROKER} \
- --topic my-flink-datastream-api-output \
+ --topic my-topic-partition \
  --formatter-property print.partition=true \
  --formatter-property print.offset=true \
  --formatter-property print.key=true \
- --from-beginning
+ --group my-group-a
