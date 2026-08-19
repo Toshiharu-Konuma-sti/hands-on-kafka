@@ -12,7 +12,7 @@ check_required_commands "jq"
 
 ${CUR_DIR}/step01-create_topic.sh
 ${CUR_DIR}/step02-register_flink.sh
-${CUR_DIR}/step03-register_schema.sh
+${CUR_DIR}/step03-register_schema_registry.sh
 ${CUR_DIR}/step04-bind_stream_to_topic.sh
 ${CUR_DIR}/step05-register_connector.sh
 ${CUR_DIR}/step06-list_topic.sh
