@@ -28,6 +28,7 @@
     "internal.key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "internal.value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "internal.value.converter.schemas.enable": "false",
-    "snapshot.mode": "initial"
+    "snapshot.mode": "initial",
+    "database.ssl.mode": "preferred"
   }
 }

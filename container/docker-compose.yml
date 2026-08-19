@@ -129,19 +129,15 @@ services:
   mysql:
     hostname: mysql
     container_name: mysql
-    image: mysql:8.0
+    image: mysql:8.4.8
     networks:
       - internal
     volumes:
-      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/init:/docker-entrypoint-initdb.d
     command: mysqld
-    environment:
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
-      TZ: "Asia/Tokyo"
+    env_file:
+      - .env-mysql
     restart: unless-stopped
 
   # --- web ui Ecosystem ---
