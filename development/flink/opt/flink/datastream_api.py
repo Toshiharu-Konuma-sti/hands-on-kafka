@@ -92,20 +92,6 @@ class AgeStatsProcessor(KeyedProcessFunction):
 def main():
     # Table APIの TableEnvironment とは異なる低レベルAPIのエントリポイント
     env = StreamExecutionEnvironment.get_execution_environment()
-    # KafkaSink の型変換問題を回避するため Table API とのブリッジ環境を用意する
-    t_env = StreamTableEnvironment.create(env)
-
-    # 出力: Table API DDL でシンクを定義（'raw' format で String を直接バイト列として書き込む）
-    t_env.execute_sql("""
-        CREATE TABLE flink_datastream_api_sink (
-            `value` STRING
-        ) WITH (
-            'connector' = 'kafka',
-            'topic' = 'my-flink-datastream-api-output',
-            'properties.bootstrap.servers' = 'kafka:29092',
-            'format' = 'raw'
-        )
-    """)
 
     # 入力: KafkaSourceをビルダーパターンで構築（Table APIのDDL "CREATE TABLE" は不要）
     source = KafkaSource.builder() \
@@ -127,8 +113,21 @@ def main():
         .process(AgeStatsProcessor(), output_type=Types.STRING())
     )
 
-    t_env.from_data_stream(result_ds, tcol("value")).execute_insert("flink_datastream_api_sink")
+    # KafkaSink の型変換問題を回避するため Table API とのブリッジ環境を用意する
+    t_env = StreamTableEnvironment.create(env)
 
+    # 出力: Table API DDL でシンクを定義（'raw' format で String を直接バイト列として書き込む）
+    t_env.execute_sql("""
+        CREATE TABLE flink_datastream_api_sink (
+            `value` STRING
+        ) WITH (
+            'connector' = 'kafka',
+            'topic' = 'my-flink-datastream-api-output',
+            'properties.bootstrap.servers' = 'kafka:29092',
+            'format' = 'raw'
+        )
+    """)
+    t_env.from_data_stream(result_ds, tcol("value")).execute_insert("flink_datastream_api_sink")
 
 if __name__ == "__main__":
     main()
