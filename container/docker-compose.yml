@@ -31,7 +31,6 @@ services:
     build:
       context: ./flink
       dockerfile: Dockerfile
-      network: host
     networks:
       - internal
       - external
@@ -55,7 +54,6 @@ services:
     build:
       context: ./flink
       dockerfile: Dockerfile
-      network: host
     networks:
       - internal
     depends_on:
@@ -165,7 +163,6 @@ services:
     build:
       context: ./handson-client
       dockerfile: Dockerfile
-      network: host
     networks:
       - internal
     depends_on:
